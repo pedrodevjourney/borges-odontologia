@@ -1,0 +1,17 @@
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/Application.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/TestController.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/Admin.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/AdminRepository.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/AdminSeeder.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/AuthController.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/AuthService.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/RevokedToken.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/RevokedTokenRepository.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/dto/AuthResponse.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/dto/LoginRequest.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/exception/InvalidCredentialsException.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/jwt/JwtAuthFilter.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/jwt/JwtService.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/config/GlobalExceptionHandler.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/config/PasswordConfig.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/config/SecurityConfig.java
