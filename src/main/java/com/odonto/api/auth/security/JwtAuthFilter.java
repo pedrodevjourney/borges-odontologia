@@ -1,6 +1,6 @@
-package com.odonto.api.auth.jwt;
+package com.odonto.api.auth.security;
 
-import com.odonto.api.auth.RevokedTokenRepository;
+import com.odonto.api.auth.repository.RevokedTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

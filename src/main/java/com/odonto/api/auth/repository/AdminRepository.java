@@ -1,5 +1,6 @@
-package com.odonto.api.auth;
+package com.odonto.api.auth.repository;
 
+import com.odonto.api.auth.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

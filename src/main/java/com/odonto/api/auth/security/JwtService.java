@@ -1,6 +1,6 @@
-package com.odonto.api.auth.jwt;
+package com.odonto.api.auth.security;
 
-import com.odonto.api.auth.Admin;
+import com.odonto.api.auth.entity.Admin;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

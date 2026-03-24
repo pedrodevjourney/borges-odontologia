@@ -1,6 +1,6 @@
 package com.odonto.api.config;
 
-import com.odonto.api.auth.jwt.JwtAuthFilter;
+import com.odonto.api.auth.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

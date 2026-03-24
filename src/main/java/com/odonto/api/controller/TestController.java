@@ -1,4 +1,4 @@
-package com.odonto.api;
+package com.odonto.api.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

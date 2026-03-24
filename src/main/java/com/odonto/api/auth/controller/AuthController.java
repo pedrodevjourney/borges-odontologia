@@ -1,7 +1,8 @@
-package com.odonto.api.auth;
+package com.odonto.api.auth.controller;
 
 import com.odonto.api.auth.dto.AuthResponse;
 import com.odonto.api.auth.dto.LoginRequest;
+import com.odonto.api.auth.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,13 @@
-package com.odonto.api.auth;
+package com.odonto.api.auth.service;
 
 import com.odonto.api.auth.dto.AuthResponse;
 import com.odonto.api.auth.dto.LoginRequest;
+import com.odonto.api.auth.entity.Admin;
+import com.odonto.api.auth.entity.RevokedToken;
 import com.odonto.api.auth.exception.InvalidCredentialsException;
-import com.odonto.api.auth.jwt.JwtService;
+import com.odonto.api.auth.repository.AdminRepository;
+import com.odonto.api.auth.repository.RevokedTokenRepository;
+import com.odonto.api.auth.security.JwtService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
