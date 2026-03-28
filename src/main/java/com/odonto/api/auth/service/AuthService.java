@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -33,6 +34,7 @@ public class AuthService implements UserDetailsService {
         this.jwtService = jwtService;
     }
 
+    @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest request) {
         Admin admin = adminRepository.findByEmail(request.email())
                 .orElseThrow(InvalidCredentialsException::new);
@@ -44,6 +46,7 @@ public class AuthService implements UserDetailsService {
         return new AuthResponse(jwtService.generateToken(admin));
     }
 
+    @Transactional
     public void logout(String token) {
         String jti = jwtService.extractJti(token);
         var expiresAt = jwtService.extractExpiration(token);
@@ -51,6 +54,7 @@ public class AuthService implements UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return adminRepository.findByEmail(email)
                 .map(admin -> User.builder()
