@@ -13,6 +13,16 @@
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/config/GlobalExceptionHandler.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/config/PasswordConfig.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/config/SecurityConfig.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/controller/ConsultaController.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/CancelarRequest.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/ConsultaRequest.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/ConsultaResponse.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/ConsultaUpdateRequest.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/entity/Consulta.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/enums/StatusConsulta.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/enums/TipoConsulta.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/repository/ConsultaRepository.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/service/ConsultaService.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/controller/TestController.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/controller/PacienteController.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/dto/AnotacaoRequest.java
