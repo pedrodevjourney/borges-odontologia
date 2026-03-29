@@ -58,11 +58,12 @@ public class ConsultaService {
     public ConsultaResponse atualizar(Long id, ConsultaUpdateRequest req) {
         Consulta c = findConsulta(id);
 
-        if (req.dataHoraInicio() != null) c.setDataHoraInicio(req.dataHoraInicio());
-        if (req.dataHoraFim() != null)    c.setDataHoraFim(req.dataHoraFim());
-        if (req.tipo() != null)           c.setTipo(req.tipo());
-        if (req.status() != null)         c.setStatus(req.status());
-        if (req.observacoes() != null)    c.setObservacoes(req.observacoes());
+        if (req.dataHoraInicio() != null)  c.setDataHoraInicio(req.dataHoraInicio());
+        if (req.dataHoraFim() != null)     c.setDataHoraFim(req.dataHoraFim());
+        if (req.tipo() != null)            c.setTipo(req.tipo());
+        if (req.status() != null)          c.setStatus(req.status());
+        if (req.observacoes() != null)     c.setObservacoes(req.observacoes());
+        if (req.googleEventId() != null)   c.setGoogleEventId(req.googleEventId());
 
         return ConsultaResponse.from(consultaRepository.save(c));
     }

@@ -17,6 +17,7 @@ public record ConsultaResponse(
         TipoConsulta tipo,
         String observacoes,
         String motivoCancelamento,
+        String googleEventId,
         Instant createdAt,
         Instant updatedAt
 ) {
@@ -31,6 +32,7 @@ public record ConsultaResponse(
                 c.getTipo(),
                 c.getObservacoes(),
                 c.getMotivoCancelamento(),
+                c.getGoogleEventId(),
                 c.getCreatedAt(),
                 c.getUpdatedAt()
         );

@@ -10,5 +10,6 @@ public record ConsultaUpdateRequest(
         LocalDateTime dataHoraFim,
         TipoConsulta tipo,
         StatusConsulta status,
-        String observacoes
+        String observacoes,
+        String googleEventId
 ) {}

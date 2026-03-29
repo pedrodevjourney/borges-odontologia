@@ -45,6 +45,8 @@ public class Consulta {
 
     private String motivoCancelamento;
 
+    private String googleEventId;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
@@ -75,6 +77,9 @@ public class Consulta {
 
     public String getMotivoCancelamento() { return motivoCancelamento; }
     public void setMotivoCancelamento(String motivoCancelamento) { this.motivoCancelamento = motivoCancelamento; }
+
+    public String getGoogleEventId() { return googleEventId; }
+    public void setGoogleEventId(String googleEventId) { this.googleEventId = googleEventId; }
 
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
