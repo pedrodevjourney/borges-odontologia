@@ -1,11 +1,11 @@
 package com.odonto.api.consulta.service;
 
 import com.odonto.api.consulta.dto.*;
-import com.odonto.api.consulta.entity.Consulta;
+import com.odonto.api.consulta.model.Consulta;
 import com.odonto.api.consulta.enums.StatusConsulta;
 import com.odonto.api.consulta.repository.ConsultaRepository;
 import com.odonto.api.paciente.entity.Paciente;
-import com.odonto.api.paciente.exception.ResourceNotFoundException;
+import com.odonto.api.exception.ResourceNotFoundException;
 import com.odonto.api.paciente.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

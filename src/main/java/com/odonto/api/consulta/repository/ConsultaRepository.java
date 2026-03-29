@@ -1,6 +1,6 @@
 package com.odonto.api.consulta.repository;
 
-import com.odonto.api.consulta.entity.Consulta;
+import com.odonto.api.consulta.model.Consulta;
 import com.odonto.api.consulta.enums.StatusConsulta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

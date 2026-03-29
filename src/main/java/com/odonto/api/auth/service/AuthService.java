@@ -2,8 +2,8 @@ package com.odonto.api.auth.service;
 
 import com.odonto.api.auth.dto.AuthResponse;
 import com.odonto.api.auth.dto.LoginRequest;
-import com.odonto.api.auth.entity.Admin;
-import com.odonto.api.auth.entity.RevokedToken;
+import com.odonto.api.auth.model.Admin;
+import com.odonto.api.auth.model.RevokedToken;
 import com.odonto.api.auth.exception.InvalidCredentialsException;
 import com.odonto.api.auth.repository.AdminRepository;
 import com.odonto.api.auth.repository.RevokedTokenRepository;

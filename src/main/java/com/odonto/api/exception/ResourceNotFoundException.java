@@ -1,4 +1,4 @@
-package com.odonto.api.paciente.exception;
+package com.odonto.api.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

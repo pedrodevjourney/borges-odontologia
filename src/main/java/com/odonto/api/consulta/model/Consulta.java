@@ -1,4 +1,4 @@
-package com.odonto.api.consulta.entity;
+package com.odonto.api.consulta.model;
 
 import com.odonto.api.consulta.enums.StatusConsulta;
 import com.odonto.api.consulta.enums.TipoConsulta;

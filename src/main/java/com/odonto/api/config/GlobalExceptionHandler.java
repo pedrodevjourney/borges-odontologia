@@ -1,7 +1,7 @@
 package com.odonto.api.config;
 
 import com.odonto.api.auth.exception.InvalidCredentialsException;
-import com.odonto.api.paciente.exception.ResourceNotFoundException;
+import com.odonto.api.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

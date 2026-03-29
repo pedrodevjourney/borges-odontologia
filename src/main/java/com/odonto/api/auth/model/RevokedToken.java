@@ -1,4 +1,4 @@
-package com.odonto.api.auth.entity;
+package com.odonto.api.auth.model;
 
 import jakarta.persistence.*;
 

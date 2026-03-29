@@ -1,6 +1,6 @@
 package com.odonto.api.consulta.dto;
 
-import com.odonto.api.consulta.entity.Consulta;
+import com.odonto.api.consulta.model.Consulta;
 import com.odonto.api.consulta.enums.StatusConsulta;
 import com.odonto.api.consulta.enums.TipoConsulta;
 

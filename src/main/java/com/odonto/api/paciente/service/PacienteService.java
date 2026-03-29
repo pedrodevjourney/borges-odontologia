@@ -2,7 +2,7 @@ package com.odonto.api.paciente.service;
 
 import com.odonto.api.paciente.dto.*;
 import com.odonto.api.paciente.entity.*;
-import com.odonto.api.paciente.exception.ResourceNotFoundException;
+import com.odonto.api.exception.ResourceNotFoundException;
 import com.odonto.api.paciente.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
