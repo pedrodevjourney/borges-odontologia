@@ -2,9 +2,9 @@
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/controller/AuthController.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/dto/AuthResponse.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/dto/LoginRequest.java
-/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/entity/Admin.java
-/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/entity/RevokedToken.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/exception/InvalidCredentialsException.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/model/Admin.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/model/RevokedToken.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/repository/AdminRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/repository/RevokedTokenRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/auth/security/JwtAuthFilter.java
@@ -18,12 +18,13 @@
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/ConsultaRequest.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/ConsultaResponse.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/dto/ConsultaUpdateRequest.java
-/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/entity/Consulta.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/enums/StatusConsulta.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/enums/TipoConsulta.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/model/Consulta.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/repository/ConsultaRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/service/ConsultaService.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/controller/TestController.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/exception/ResourceNotFoundException.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/controller/PacienteController.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/dto/AnotacaoRequest.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/dto/AnotacaoResponse.java
@@ -42,7 +43,6 @@
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/entity/Radiografia.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/enums/EstadoCivil.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/enums/TipoRadiografia.java
-/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/exception/ResourceNotFoundException.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/repository/AnotacaoRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/repository/DadosDenteRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/paciente/repository/FichaClinicaRepository.java

@@ -89,4 +89,10 @@ public class ConsultaService {
         return consultaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Consulta não encontrada com id: " + id));
     }
+
+    @Transactional
+    public void deletar(Long id) {
+        Consulta consulta = findConsulta(id);
+        consultaRepository.delete(consulta);
+    }
 }

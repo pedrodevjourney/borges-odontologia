@@ -1,6 +1,6 @@
 package com.odonto.api.seeder;
 
-import com.odonto.api.auth.entity.Admin;
+import com.odonto.api.auth.model.Admin;
 import com.odonto.api.auth.repository.AdminRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -56,4 +56,10 @@ public class ConsultaController {
             @RequestBody(required = false) CancelarRequest req) {
         return ResponseEntity.ok(consultaService.cancelar(id, req));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        consultaService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
