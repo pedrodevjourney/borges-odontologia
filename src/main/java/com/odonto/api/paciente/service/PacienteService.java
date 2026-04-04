@@ -36,6 +36,9 @@ public class PacienteService {
 
     @Transactional
     public PacienteResponse criar(PacienteRequest req) {
+        if (req.numero() != null && pacienteRepository.findByNumero(req.numero()).isPresent()) {
+            throw new IllegalStateException("Já existe um paciente cadastrado com o número " + req.numero());
+        }
         Paciente p = new Paciente();
         p.setNumero(req.numero());
         p.setNome(req.nome());
@@ -143,6 +146,12 @@ public class PacienteService {
                 .map(FichaClinicaResponse::from).toList();
     }
 
+
+    @Transactional
+    public void excluir(Long id) {
+        Paciente paciente = findPaciente(id);
+        pacienteRepository.delete(paciente);
+    }
 
     private Paciente findPaciente(Long id) {
         return pacienteRepository.findById(id)

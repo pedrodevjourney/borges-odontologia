@@ -40,6 +40,12 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.buscar(id));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        pacienteService.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @PostMapping("/{pacienteId}/dados-dentes")
     public ResponseEntity<DadosDenteResponse> criarDadosDente(
