@@ -13,4 +13,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     Page<Paciente> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
 
     Optional<Paciente> findByNumero(Integer numero);
+
+    long count();
+
+    long countByInicioTratamentoNotNullAndTerminoTratamentoIsNull();
 }

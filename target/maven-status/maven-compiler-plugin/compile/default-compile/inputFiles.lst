@@ -24,6 +24,9 @@
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/repository/ConsultaRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/consulta/service/ConsultaService.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/controller/TestController.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/dashboard/controller/DashboardController.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/dashboard/dto/DashboardResponse.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/dashboard/service/DashboardService.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/exception/ResourceNotFoundException.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/controller/LancamentoController.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/dto/LancamentoRequest.java

@@ -39,4 +39,16 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
             @Param("dataInicio") LocalDate dataInicio,
             @Param("dataFim") LocalDate dataFim
     );
+
+    @Query(value = """
+            SELECT COALESCE(SUM(l.deve), 0),
+                   COALESCE(SUM(l.haver), 0)
+            FROM lancamentos l
+            WHERE l.data >= :dataInicio
+              AND l.data <= :dataFim
+            """, nativeQuery = true)
+    List<Object[]> findTotaisByPeriodo(
+            @Param("dataInicio") LocalDate dataInicio,
+            @Param("dataFim") LocalDate dataFim
+    );
 }

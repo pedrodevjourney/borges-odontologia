@@ -19,6 +19,7 @@ com/odonto/api/paciente/dto/PacienteRequest.class
 com/odonto/api/exception/ResourceNotFoundException.class
 com/odonto/api/paciente/dto/AnotacaoRequest.class
 com/odonto/api/paciente/dto/AnotacaoResponse.class
+com/odonto/api/dashboard/controller/DashboardController.class
 com/odonto/api/auth/dto/LoginRequest.class
 com/odonto/api/financeiro/dto/ResumoFinanceiroResponse.class
 com/odonto/api/seeder/DemoDataSeeder.class
@@ -45,6 +46,7 @@ com/odonto/api/paciente/dto/RadiografiaResponse.class
 com/odonto/api/controller/TestController.class
 com/odonto/api/paciente/dto/PacienteResponse.class
 com/odonto/api/paciente/enums/TipoRadiografia.class
+com/odonto/api/dashboard/dto/DashboardResponse$ProcedimentoContagem.class
 com/odonto/api/Application.class
 com/odonto/api/consulta/dto/CancelarRequest.class
 com/odonto/api/auth/security/JwtService.class
@@ -52,12 +54,17 @@ com/odonto/api/financeiro/dto/LancamentoUpdateRequest.class
 com/odonto/api/auth/model/Admin.class
 com/odonto/api/auth/exception/InvalidCredentialsException.class
 com/odonto/api/paciente/dto/DadosDenteResponse.class
+com/odonto/api/dashboard/dto/DashboardResponse$FinanceiroResumo.class
+com/odonto/api/dashboard/dto/DashboardResponse$PacientesResumo.class
 com/odonto/api/consulta/repository/ConsultaRepository.class
 com/odonto/api/paciente/dto/RadiografiaRequest.class
+com/odonto/api/dashboard/service/DashboardService.class
 com/odonto/api/paciente/controller/PacienteController.class
 com/odonto/api/auth/model/RevokedToken.class
 com/odonto/api/paciente/dto/FichaClinicaRequest.class
 com/odonto/api/config/GlobalExceptionHandler.class
 com/odonto/api/financeiro/enums/TipoLancamento.class
+com/odonto/api/dashboard/dto/DashboardResponse.class
 com/odonto/api/paciente/entity/Radiografia.class
 com/odonto/api/paciente/dto/FichaClinicaResponse.class
+com/odonto/api/dashboard/dto/DashboardResponse$ConsultasResumo.class
