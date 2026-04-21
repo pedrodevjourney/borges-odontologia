@@ -32,7 +32,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     @Query("""
             SELECT c.tipo, COUNT(c) FROM Consulta c
-            WHERE c.status = 'REALIZADA'
+            WHERE c.status = com.odonto.api.consulta.enums.StatusConsulta.REALIZADA
             GROUP BY c.tipo
             ORDER BY COUNT(c) DESC
             """)
@@ -42,12 +42,13 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
             SELECT c FROM Consulta c
             JOIN FETCH c.paciente
             WHERE c.dataHoraInicio >= :agora
-              AND c.status IN (com.odonto.api.consulta.enums.StatusConsulta.AGENDADA, com.odonto.api.consulta.enums.StatusConsulta.CONFIRMADA)
+              AND c.status IN (:statusList)
             ORDER BY c.dataHoraInicio ASC
             LIMIT :limite
             """)
     List<Consulta> findProximasConsultas(
             @Param("agora") LocalDateTime agora,
+            @Param("statusList") List<StatusConsulta> statusList,
             @Param("limite") int limite
     );
 }

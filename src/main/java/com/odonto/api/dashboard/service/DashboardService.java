@@ -99,7 +99,8 @@ public class DashboardService {
     }
 
     private List<ConsultaResponse> obterProximasConsultas() {
-        return consultaRepository.findProximasConsultas(LocalDateTime.now(), 5)
+        var statusPermitidos = List.of(StatusConsulta.AGENDADA, StatusConsulta.CONFIRMADA);
+        return consultaRepository.findProximasConsultas(LocalDateTime.now(), statusPermitidos, 5)
                 .stream()
                 .map(ConsultaResponse::from)
                 .toList();
