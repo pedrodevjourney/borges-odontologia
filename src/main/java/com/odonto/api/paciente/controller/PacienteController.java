@@ -79,6 +79,22 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.listarAnotacoes(pacienteId));
     }
 
+    @PatchMapping("/{pacienteId}/anotacoes/{anotacaoId}")
+    public ResponseEntity<AnotacaoResponse> atualizarAnotacao(
+            @PathVariable Long pacienteId,
+            @PathVariable Long anotacaoId,
+            @Valid @RequestBody AnotacaoRequest req) {
+        return ResponseEntity.ok(pacienteService.atualizarAnotacao(pacienteId, anotacaoId, req));
+    }
+
+    @DeleteMapping("/{pacienteId}/anotacoes/{anotacaoId}")
+    public ResponseEntity<Void> excluirAnotacao(
+            @PathVariable Long pacienteId,
+            @PathVariable Long anotacaoId) {
+        pacienteService.excluirAnotacao(pacienteId, anotacaoId);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @PostMapping(value = "/{pacienteId}/radiografias", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RadiografiaResponse> criarRadiografia(
@@ -139,6 +155,22 @@ public class PacienteController {
     @GetMapping("/{pacienteId}/fichas-clinicas")
     public ResponseEntity<List<FichaClinicaResponse>> listarFichasClinicas(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(pacienteService.listarFichasClinicas(pacienteId));
+    }
+
+    @PatchMapping("/{pacienteId}/fichas-clinicas/{fichaId}")
+    public ResponseEntity<FichaClinicaResponse> atualizarFichaClinica(
+            @PathVariable Long pacienteId,
+            @PathVariable Long fichaId,
+            @Valid @RequestBody FichaClinicaRequest req) {
+        return ResponseEntity.ok(pacienteService.atualizarFichaClinica(pacienteId, fichaId, req));
+    }
+
+    @DeleteMapping("/{pacienteId}/fichas-clinicas/{fichaId}")
+    public ResponseEntity<Void> excluirFichaClinica(
+            @PathVariable Long pacienteId,
+            @PathVariable Long fichaId) {
+        pacienteService.excluirFichaClinica(pacienteId, fichaId);
+        return ResponseEntity.noContent().build();
     }
 
 

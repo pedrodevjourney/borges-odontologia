@@ -3,6 +3,7 @@ package com.odonto.api.dashboard.service;
 import com.odonto.api.consulta.dto.ConsultaResponse;
 import com.odonto.api.consulta.enums.StatusConsulta;
 import com.odonto.api.consulta.repository.ConsultaRepository;
+import com.odonto.api.paciente.repository.PacienteRepository;
 import com.odonto.api.dashboard.dto.DashboardResponse;
 import com.odonto.api.dashboard.dto.DashboardResponse.*;
 import com.odonto.api.financeiro.repository.LancamentoRepository;
@@ -41,7 +42,8 @@ public class DashboardService {
                 obterResumoConsultas(hoje),
                 obterResumoFinanceiro(hoje),
                 obterProximasConsultas(),
-                obterProcedimentosMaisRealizados()
+                obterProcedimentosMaisRealizados(),
+                obterAlertasRetorno()
         );
     }
 
@@ -113,6 +115,22 @@ public class DashboardService {
                         row[0].toString(),
                         (long) row[1]
                 ))
+                .toList();
+    }
+
+    private List<DashboardResponse.AlertaRetorno> obterAlertasRetorno() {
+        LocalDateTime tresMesesAtras = LocalDateTime.now().minusMonths(3);
+        return pacienteRepository.findPacientesSemRetorno(tresMesesAtras)
+                .stream()
+                .map(p -> {
+                    var consultas = consultaRepository.findByPacienteIdOrderByDataHoraInicioDesc(p.getId());
+                    String ultimaConsulta = consultas.stream()
+                            .filter(c -> c.getStatus() == StatusConsulta.REALIZADA)
+                            .findFirst()
+                            .map(c -> c.getDataHoraInicio().toLocalDate().toString())
+                            .orElse(null);
+                    return new DashboardResponse.AlertaRetorno(p.getId(), p.getNome(), ultimaConsulta);
+                })
                 .toList();
     }
 }

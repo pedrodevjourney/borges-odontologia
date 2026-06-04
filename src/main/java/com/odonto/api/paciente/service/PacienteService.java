@@ -129,6 +129,24 @@ public class PacienteService {
                 .map(AnotacaoResponse::from).toList();
     }
 
+    @Transactional
+    public AnotacaoResponse atualizarAnotacao(Long pacienteId, Long anotacaoId, AnotacaoRequest req) {
+        findPaciente(pacienteId);
+        Anotacao a = anotacaoRepository.findById(anotacaoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Anotação não encontrada com id: " + anotacaoId));
+        a.setDataAnotacao(req.dataAnotacao());
+        a.setConteudo(req.conteudo());
+        return AnotacaoResponse.from(anotacaoRepository.save(a));
+    }
+
+    @Transactional
+    public void excluirAnotacao(Long pacienteId, Long anotacaoId) {
+        findPaciente(pacienteId);
+        Anotacao a = anotacaoRepository.findById(anotacaoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Anotação não encontrada com id: " + anotacaoId));
+        anotacaoRepository.delete(a);
+    }
+
 
     @Transactional
     public RadiografiaResponse criarRadiografia(Long pacienteId, MultipartFile arquivo,
@@ -214,6 +232,28 @@ public class PacienteService {
         findPaciente(pacienteId);
         return fichaClinicaRepository.findByPacienteIdOrderByDataDesc(pacienteId).stream()
                 .map(FichaClinicaResponse::from).toList();
+    }
+
+    @Transactional
+    public FichaClinicaResponse atualizarFichaClinica(Long pacienteId, Long fichaId, FichaClinicaRequest req) {
+        findPaciente(pacienteId);
+        FichaClinica f = fichaClinicaRepository.findById(fichaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Ficha clínica não encontrada com id: " + fichaId));
+        f.setData(req.data());
+        f.setNumeroDente(req.numeroDente());
+        f.setObservacoesClinicas(req.observacoesClinicas());
+        f.setHistorico(req.historico());
+        f.setDeve(req.deve());
+        f.setHaver(req.haver());
+        return FichaClinicaResponse.from(fichaClinicaRepository.save(f));
+    }
+
+    @Transactional
+    public void excluirFichaClinica(Long pacienteId, Long fichaId) {
+        findPaciente(pacienteId);
+        FichaClinica f = fichaClinicaRepository.findById(fichaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Ficha clínica não encontrada com id: " + fichaId));
+        fichaClinicaRepository.delete(f);
     }
 
 

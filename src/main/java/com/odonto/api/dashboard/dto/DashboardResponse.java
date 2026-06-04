@@ -11,12 +11,19 @@ public record DashboardResponse(
         ConsultasResumo consultas,
         FinanceiroResumo financeiro,
         List<ConsultaResponse> proximasConsultas,
-        List<ProcedimentoContagem> procedimentosMaisRealizados
+        List<ProcedimentoContagem> procedimentosMaisRealizados,
+        List<AlertaRetorno> alertasRetorno
 ) {
 
     public record PacientesResumo(
             long total,
             long emTratamento
+    ) {}
+
+    public record AlertaRetorno(
+            Long pacienteId,
+            String pacienteNome,
+            String ultimaConsulta
     ) {}
 
     public record ConsultasResumo(

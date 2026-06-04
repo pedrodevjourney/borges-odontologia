@@ -24,6 +24,7 @@ com/odonto/api/dashboard/controller/DashboardController.class
 com/odonto/api/auth/dto/LoginRequest.class
 com/odonto/api/financeiro/dto/ResumoFinanceiroResponse.class
 com/odonto/api/seeder/DemoDataSeeder.class
+com/odonto/api/dashboard/dto/DashboardResponse$AlertaRetorno.class
 com/odonto/api/financeiro/dto/LancamentoRequest.class
 com/odonto/api/auth/controller/AuthController.class
 com/odonto/api/paciente/dto/PlanoTratamentoResponse.class
