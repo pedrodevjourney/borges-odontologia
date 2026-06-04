@@ -3,13 +3,20 @@ package com.odonto.api.paciente.controller;
 import com.odonto.api.paciente.dto.*;
 import com.odonto.api.paciente.service.PacienteService;
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -48,10 +55,10 @@ public class PacienteController {
 
 
     @PostMapping("/{pacienteId}/dados-dentes")
-    public ResponseEntity<DadosDenteResponse> criarDadosDente(
+    public ResponseEntity<DadosDenteResponse> salvarDadosDente(
             @PathVariable Long pacienteId,
             @Valid @RequestBody DadosDenteRequest req) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteService.criarDadosDente(pacienteId, req));
+        return ResponseEntity.ok(pacienteService.salvarDadosDente(pacienteId, req));
     }
 
     @GetMapping("/{pacienteId}/dados-dentes")
@@ -73,16 +80,52 @@ public class PacienteController {
     }
 
 
-    @PostMapping("/{pacienteId}/radiografias")
+    @PostMapping(value = "/{pacienteId}/radiografias", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RadiografiaResponse> criarRadiografia(
             @PathVariable Long pacienteId,
-            @Valid @RequestBody RadiografiaRequest req) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteService.criarRadiografia(pacienteId, req));
+            @RequestParam("arquivo") MultipartFile arquivo,
+            @RequestParam(value = "descricao", required = false) String descricao,
+            @RequestParam(value = "tipo", required = false) String tipo,
+            @RequestParam(value = "dataRealizacao", required = false) String dataRealizacao) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(pacienteService.criarRadiografia(pacienteId, arquivo, descricao, tipo, dataRealizacao));
     }
 
     @GetMapping("/{pacienteId}/radiografias")
     public ResponseEntity<List<RadiografiaResponse>> listarRadiografias(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(pacienteService.listarRadiografias(pacienteId));
+    }
+
+    @GetMapping("/{pacienteId}/radiografias/{radiografiaId}/arquivo")
+    public ResponseEntity<Resource> downloadRadiografia(
+            @PathVariable Long pacienteId,
+            @PathVariable Long radiografiaId) {
+        Path filePath = pacienteService.resolverArquivoRadiografia(pacienteId, radiografiaId);
+        try {
+            Resource resource = new UrlResource(filePath.toUri());
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+            String contentType = "application/octet-stream";
+            try {
+                String ct = java.nio.file.Files.probeContentType(filePath);
+                if (ct != null) contentType = ct;
+            } catch (Exception ignored) {}
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(resource);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{pacienteId}/radiografias/{radiografiaId}")
+    public ResponseEntity<Void> excluirRadiografia(
+            @PathVariable Long pacienteId,
+            @PathVariable Long radiografiaId) {
+        pacienteService.excluirRadiografia(pacienteId, radiografiaId);
+        return ResponseEntity.noContent().build();
     }
 
 
@@ -96,5 +139,41 @@ public class PacienteController {
     @GetMapping("/{pacienteId}/fichas-clinicas")
     public ResponseEntity<List<FichaClinicaResponse>> listarFichasClinicas(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(pacienteService.listarFichasClinicas(pacienteId));
+    }
+
+
+    @PostMapping("/{pacienteId}/plano-tratamento")
+    public ResponseEntity<PlanoTratamentoResponse> criarItemPlano(
+            @PathVariable Long pacienteId,
+            @Valid @RequestBody PlanoTratamentoRequest req) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(pacienteService.criarItemPlano(pacienteId, req));
+    }
+
+    @GetMapping("/{pacienteId}/plano-tratamento")
+    public ResponseEntity<List<PlanoTratamentoResponse>> listarPlanoTratamento(@PathVariable Long pacienteId) {
+        return ResponseEntity.ok(pacienteService.listarPlanoTratamento(pacienteId));
+    }
+
+    @PatchMapping("/{pacienteId}/plano-tratamento/{itemId}")
+    public ResponseEntity<PlanoTratamentoResponse> atualizarItemPlano(
+            @PathVariable Long pacienteId,
+            @PathVariable Long itemId,
+            @Valid @RequestBody PlanoTratamentoRequest req) {
+        return ResponseEntity.ok(pacienteService.atualizarItemPlano(pacienteId, itemId, req));
+    }
+
+    @DeleteMapping("/{pacienteId}/plano-tratamento/{itemId}")
+    public ResponseEntity<Void> excluirItemPlano(
+            @PathVariable Long pacienteId,
+            @PathVariable Long itemId) {
+        pacienteService.excluirItemPlano(pacienteId, itemId);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/{pacienteId}/historico")
+    public ResponseEntity<List<HistoricoItemResponse>> listarHistorico(@PathVariable Long pacienteId) {
+        return ResponseEntity.ok(pacienteService.listarHistorico(pacienteId));
     }
 }

@@ -51,4 +51,6 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
             @Param("statusList") List<StatusConsulta> statusList,
             @Param("limite") int limite
     );
+
+    List<Consulta> findByPacienteIdOrderByDataHoraInicioDesc(Long pacienteId);
 }

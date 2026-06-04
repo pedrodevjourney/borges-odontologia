@@ -25,6 +25,12 @@ public class Radiografia {
 
     private String descricao;
 
+    private String nomeOriginal;
+
+    private String nomeArmazenado;
+
+    private String contentType;
+
     private String caminhoArquivo;
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +50,15 @@ public class Radiografia {
 
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public String getNomeOriginal() { return nomeOriginal; }
+    public void setNomeOriginal(String nomeOriginal) { this.nomeOriginal = nomeOriginal; }
+
+    public String getNomeArmazenado() { return nomeArmazenado; }
+    public void setNomeArmazenado(String nomeArmazenado) { this.nomeArmazenado = nomeArmazenado; }
+
+    public String getContentType() { return contentType; }
+    public void setContentType(String contentType) { this.contentType = contentType; }
 
     public String getCaminhoArquivo() { return caminhoArquivo; }
     public void setCaminhoArquivo(String caminhoArquivo) { this.caminhoArquivo = caminhoArquivo; }

@@ -70,6 +70,9 @@ public class Paciente {
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FichaClinica> fichasClinicas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanoTratamento> planosTratamento = new ArrayList<>();
+
     public Long getId() { return id; }
 
     public String getNome() { return nome; }
@@ -128,4 +131,7 @@ public class Paciente {
 
     public List<FichaClinica> getFichasClinicas() { return fichasClinicas; }
     public void setFichasClinicas(List<FichaClinica> fichasClinicas) { this.fichasClinicas = fichasClinicas; }
+
+    public List<PlanoTratamento> getPlanosTratamento() { return planosTratamento; }
+    public void setPlanosTratamento(List<PlanoTratamento> planosTratamento) { this.planosTratamento = planosTratamento; }
 }

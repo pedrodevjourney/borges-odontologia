@@ -11,15 +11,16 @@ public record RadiografiaResponse(
         Long pacienteId,
         LocalDate dataRealizacao,
         String descricao,
-        String caminhoArquivo,
+        String nomeOriginal,
+        String contentType,
         TipoRadiografia tipoRadiografia,
         Instant createdAt
 ) {
     public static RadiografiaResponse from(Radiografia r) {
         return new RadiografiaResponse(
                 r.getId(), r.getPaciente().getId(), r.getDataRealizacao(),
-                r.getDescricao(), r.getCaminhoArquivo(), r.getTipoRadiografia(),
-                r.getCreatedAt()
+                r.getDescricao(), r.getNomeOriginal(), r.getContentType(),
+                r.getTipoRadiografia(), r.getCreatedAt()
         );
     }
 }

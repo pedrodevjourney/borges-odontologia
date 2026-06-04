@@ -6,7 +6,6 @@
 
 CREATE TABLE IF NOT EXISTS pacientes (
     id                      BIGSERIAL       PRIMARY KEY,
-    numero                  INTEGER         UNIQUE,
     nome                    VARCHAR(255)    NOT NULL,
     residencia              VARCHAR(255),
     endereco_completo       VARCHAR(255),
@@ -26,7 +25,6 @@ CREATE TABLE IF NOT EXISTS pacientes (
 );
 
 CREATE INDEX IF NOT EXISTS idx_pacientes_nome ON pacientes(nome);
-CREATE INDEX IF NOT EXISTS idx_pacientes_numero ON pacientes(numero);
 
 -- -----------------------------------------------------------
 

@@ -51,4 +51,6 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
             @Param("dataInicio") LocalDate dataInicio,
             @Param("dataFim") LocalDate dataFim
     );
+
+    List<Lancamento> findByPacienteIdOrderByDataDesc(Long pacienteId);
 }

@@ -2,6 +2,7 @@ com/odonto/api/consulta/enums/StatusConsulta.class
 com/odonto/api/paciente/entity/Paciente.class
 com/odonto/api/paciente/service/PacienteService.class
 com/odonto/api/consulta/enums/TipoConsulta.class
+com/odonto/api/paciente/enums/StatusDente.class
 com/odonto/api/paciente/repository/DadosDenteRepository.class
 com/odonto/api/paciente/enums/EstadoCivil.class
 com/odonto/api/consulta/controller/ConsultaController.class
@@ -25,6 +26,7 @@ com/odonto/api/financeiro/dto/ResumoFinanceiroResponse.class
 com/odonto/api/seeder/DemoDataSeeder.class
 com/odonto/api/financeiro/dto/LancamentoRequest.class
 com/odonto/api/auth/controller/AuthController.class
+com/odonto/api/paciente/dto/PlanoTratamentoResponse.class
 com/odonto/api/consulta/dto/ConsultaRequest.class
 com/odonto/api/consulta/dto/ConsultaResponse.class
 com/odonto/api/config/SecurityConfig.class
@@ -39,6 +41,7 @@ com/odonto/api/config/PasswordConfig.class
 com/odonto/api/auth/repository/AdminRepository.class
 com/odonto/api/consulta/dto/ConsultaUpdateRequest.class
 com/odonto/api/financeiro/dto/LancamentoResponse.class
+com/odonto/api/paciente/repository/PlanoTratamentoRepository.class
 com/odonto/api/auth/repository/RevokedTokenRepository.class
 com/odonto/api/auth/service/AuthService.class
 com/odonto/api/paciente/repository/AnotacaoRepository.class
@@ -62,9 +65,13 @@ com/odonto/api/dashboard/service/DashboardService.class
 com/odonto/api/paciente/controller/PacienteController.class
 com/odonto/api/auth/model/RevokedToken.class
 com/odonto/api/paciente/dto/FichaClinicaRequest.class
+com/odonto/api/paciente/dto/PlanoTratamentoRequest.class
+com/odonto/api/paciente/dto/HistoricoItemResponse.class
 com/odonto/api/config/GlobalExceptionHandler.class
 com/odonto/api/financeiro/enums/TipoLancamento.class
 com/odonto/api/dashboard/dto/DashboardResponse.class
 com/odonto/api/paciente/entity/Radiografia.class
+com/odonto/api/paciente/entity/PlanoTratamento.class
 com/odonto/api/paciente/dto/FichaClinicaResponse.class
 com/odonto/api/dashboard/dto/DashboardResponse$ConsultasResumo.class
+com/odonto/api/paciente/enums/StatusTratamento.class
