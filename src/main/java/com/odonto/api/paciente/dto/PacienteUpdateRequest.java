@@ -1,12 +1,11 @@
 package com.odonto.api.paciente.dto;
 
 import com.odonto.api.paciente.enums.EstadoCivil;
-import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
-public record PacienteRequest(
-        @NotBlank(message = "Nome é obrigatório") String nome,
+public record PacienteUpdateRequest(
+        String nome,
         String residencia,
         String enderecoCompleto,
         String profissao,

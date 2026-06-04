@@ -36,11 +36,7 @@ public class PacienteService {
 
     @Transactional
     public PacienteResponse criar(PacienteRequest req) {
-        if (req.numero() != null && pacienteRepository.findByNumero(req.numero()).isPresent()) {
-            throw new IllegalStateException("Já existe um paciente cadastrado com o número " + req.numero());
-        }
         Paciente p = new Paciente();
-        p.setNumero(req.numero());
         p.setNome(req.nome());
         p.setResidencia(req.residencia());
         p.setEnderecoCompleto(req.enderecoCompleto());

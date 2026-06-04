@@ -12,17 +12,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "pacientes", indexes = {
-        @Index(name = "idx_pacientes_nome", columnList = "nome"),
-        @Index(name = "idx_pacientes_numero", columnList = "numero")
+        @Index(name = "idx_pacientes_nome", columnList = "nome")
 })
 public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true)
-    private Integer numero;
 
     @Column(nullable = false)
     private String nome;
@@ -75,9 +71,6 @@ public class Paciente {
     private List<FichaClinica> fichasClinicas = new ArrayList<>();
 
     public Long getId() { return id; }
-
-    public Integer getNumero() { return numero; }
-    public void setNumero(Integer numero) { this.numero = numero; }
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }

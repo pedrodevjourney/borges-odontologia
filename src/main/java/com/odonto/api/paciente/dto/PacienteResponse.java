@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 public record PacienteResponse(
         Long id,
-        Integer numero,
         String nome,
         String residencia,
         String enderecoCompleto,
@@ -28,7 +27,7 @@ public record PacienteResponse(
 ) {
     public static PacienteResponse from(Paciente p) {
         return new PacienteResponse(
-                p.getId(), p.getNumero(), p.getNome(), p.getResidencia(),
+                p.getId(), p.getNome(), p.getResidencia(),
                 p.getEnderecoCompleto(), p.getProfissao(), p.getDataNascimento(),
                 p.getNacionalidade(), p.getIndicadoPor(), p.getInicioTratamento(),
                 p.getTerminoTratamento(), p.getInterrupcaoTratamento(),
