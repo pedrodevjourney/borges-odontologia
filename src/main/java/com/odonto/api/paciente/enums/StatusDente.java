@@ -6,5 +6,6 @@ public enum StatusDente {
     RESTAURADO,
     EXTRAIDO,
     IMPLANTE,
-    AUSENTE
+    AUSENTE,
+    FEITO_CANAL
 }
