@@ -74,7 +74,27 @@ public class PacienteService {
         p.setTelefone(req.telefone());
         p.setTelefoneSecundario(req.telefoneSecundario());
         p.setEstadoCivil(req.estadoCivil());
-        p.setDlne(req.dlne());
+        p.setCpf(req.cpf());
+        return PacienteResponse.from(pacienteRepository.save(p));
+    }
+
+    @Transactional
+    public PacienteResponse atualizar(Long id, PacienteUpdateRequest req) {
+        Paciente p = findPaciente(id);
+        if (req.nome() != null && !req.nome().isBlank()) p.setNome(req.nome());
+        if (req.cpf() != null) p.setCpf(req.cpf().isBlank() ? null : req.cpf());
+        if (req.residencia() != null) p.setResidencia(req.residencia());
+        if (req.enderecoCompleto() != null) p.setEnderecoCompleto(req.enderecoCompleto());
+        if (req.profissao() != null) p.setProfissao(req.profissao());
+        if (req.dataNascimento() != null) p.setDataNascimento(req.dataNascimento());
+        if (req.nacionalidade() != null) p.setNacionalidade(req.nacionalidade());
+        if (req.indicadoPor() != null) p.setIndicadoPor(req.indicadoPor());
+        if (req.inicioTratamento() != null) p.setInicioTratamento(req.inicioTratamento());
+        if (req.terminoTratamento() != null) p.setTerminoTratamento(req.terminoTratamento());
+        if (req.interrupcaoTratamento() != null) p.setInterrupcaoTratamento(req.interrupcaoTratamento());
+        if (req.telefone() != null) p.setTelefone(req.telefone());
+        if (req.telefoneSecundario() != null) p.setTelefoneSecundario(req.telefoneSecundario());
+        if (req.estadoCivil() != null) p.setEstadoCivil(req.estadoCivil());
         return PacienteResponse.from(pacienteRepository.save(p));
     }
 

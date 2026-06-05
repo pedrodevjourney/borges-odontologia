@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS pacientes (
     telefone                VARCHAR(255),
     telefone_secundario     VARCHAR(255),
     estado_civil            VARCHAR(50),
-    dlne                    BOOLEAN,
+    cpf                     VARCHAR(14),
     created_at              TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at              TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );

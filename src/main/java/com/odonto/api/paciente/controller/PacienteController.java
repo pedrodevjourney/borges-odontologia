@@ -47,6 +47,13 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.buscar(id));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<PacienteResponse> atualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody PacienteUpdateRequest req) {
+        return ResponseEntity.ok(pacienteService.atualizar(id, req));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
         pacienteService.excluir(id);

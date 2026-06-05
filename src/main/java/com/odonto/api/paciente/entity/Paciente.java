@@ -48,7 +48,8 @@ public class Paciente {
     @Enumerated(EnumType.STRING)
     private EstadoCivil estadoCivil;
 
-    private Boolean dlne;
+    @Column(length = 14)
+    private String cpf;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -114,8 +115,8 @@ public class Paciente {
     public EstadoCivil getEstadoCivil() { return estadoCivil; }
     public void setEstadoCivil(EstadoCivil estadoCivil) { this.estadoCivil = estadoCivil; }
 
-    public Boolean getDlne() { return dlne; }
-    public void setDlne(Boolean dlne) { this.dlne = dlne; }
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
 
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
