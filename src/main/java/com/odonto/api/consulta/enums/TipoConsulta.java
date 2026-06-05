@@ -10,5 +10,10 @@ public enum TipoConsulta {
     EXTRACAO,
     ENDODONTIA,
     ORTODONTIA,
-    IMPLANTE
+    IMPLANTE,
+    PROTESE_TOTAL,
+    PROTESE_PARCIAL,
+    PINO_COROA,
+    RESINAS,
+    ESTETICA
 }
