@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public record ResumoFinanceiroResponse(
         Long pacienteId,
         String pacienteNome,
-        BigDecimal totalDeve,
-        BigDecimal totalHaver,
-        BigDecimal saldoGeral
+        BigDecimal totalValorTotal,
+        BigDecimal totalValorPago,
+        BigDecimal valorRestanteGeral
 ) {}

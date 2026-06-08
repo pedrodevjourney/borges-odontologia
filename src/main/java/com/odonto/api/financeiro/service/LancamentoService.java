@@ -36,8 +36,8 @@ public class LancamentoService {
         l.setTipo(req.tipo());
         l.setDescricao(req.descricao());
         l.setData(req.data());
-        l.setDeve(req.deve());
-        l.setHaver(req.haver());
+        l.setValorTotal(req.valorTotal());
+        l.setValorPago(req.valorPago());
 
         return LancamentoResponse.from(lancamentoRepository.save(l));
     }
@@ -49,8 +49,8 @@ public class LancamentoService {
         if (req.tipo() != null)      l.setTipo(req.tipo());
         if (req.descricao() != null)  l.setDescricao(req.descricao());
         if (req.data() != null)       l.setData(req.data());
-        if (req.deve() != null)       l.setDeve(req.deve());
-        if (req.haver() != null)      l.setHaver(req.haver());
+        if (req.valorTotal() != null)  l.setValorTotal(req.valorTotal());
+        if (req.valorPago() != null)   l.setValorPago(req.valorPago());
 
         return LancamentoResponse.from(lancamentoRepository.save(l));
     }
@@ -76,15 +76,15 @@ public class LancamentoService {
         Paciente paciente = findPaciente(pacienteId);
         List<Object[]> resultado = lancamentoRepository.findTotaisByPaciente(pacienteId, dataInicio, dataFim);
         Object[] totais = resultado.getFirst();
-        BigDecimal totalDeve = (BigDecimal) totais[0];
-        BigDecimal totalHaver = (BigDecimal) totais[1];
+        BigDecimal totalValorTotal = (BigDecimal) totais[0];
+        BigDecimal totalValorPago = (BigDecimal) totais[1];
 
         return new ResumoFinanceiroResponse(
                 paciente.getId(),
                 paciente.getNome(),
-                totalDeve,
-                totalHaver,
-                totalHaver.subtract(totalDeve)
+                totalValorTotal,
+                totalValorPago,
+                totalValorTotal.subtract(totalValorPago)
         );
     }
 

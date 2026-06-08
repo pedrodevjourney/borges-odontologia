@@ -12,6 +12,6 @@ public record LancamentoRequest(
         @NotNull(message = "Tipo é obrigatório") TipoLancamento tipo,
         @NotBlank(message = "Descrição é obrigatória") String descricao,
         @NotNull(message = "Data é obrigatória") LocalDate data,
-        BigDecimal deve,
-        BigDecimal haver
+        BigDecimal valorTotal,
+        BigDecimal valorPago
 ) {}

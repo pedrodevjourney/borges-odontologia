@@ -36,14 +36,14 @@ public class Lancamento {
     @Column(nullable = false)
     private LocalDate data;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal deve;
+    @Column(name = "deve", precision = 10, scale = 2)
+    private BigDecimal valorTotal;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal haver;
+    @Column(name = "haver", precision = 10, scale = 2)
+    private BigDecimal valorPago;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal saldo;
+    @Column(name = "saldo", precision = 10, scale = 2)
+    private BigDecimal valorRestante;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -55,10 +55,10 @@ public class Lancamento {
 
     @PrePersist
     @PreUpdate
-    public void calcularSaldo() {
-        BigDecimal valorDeve = this.deve != null ? this.deve : BigDecimal.ZERO;
-        BigDecimal valorHaver = this.haver != null ? this.haver : BigDecimal.ZERO;
-        this.saldo = valorHaver.subtract(valorDeve);
+    public void calcularValorRestante() {
+        BigDecimal total = this.valorTotal != null ? this.valorTotal : BigDecimal.ZERO;
+        BigDecimal pago = this.valorPago != null ? this.valorPago : BigDecimal.ZERO;
+        this.valorRestante = total.subtract(pago);
     }
 
     public Long getId() { return id; }
@@ -75,13 +75,13 @@ public class Lancamento {
     public LocalDate getData() { return data; }
     public void setData(LocalDate data) { this.data = data; }
 
-    public BigDecimal getDeve() { return deve; }
-    public void setDeve(BigDecimal deve) { this.deve = deve; }
+    public BigDecimal getValorTotal() { return valorTotal; }
+    public void setValorTotal(BigDecimal valorTotal) { this.valorTotal = valorTotal; }
 
-    public BigDecimal getHaver() { return haver; }
-    public void setHaver(BigDecimal haver) { this.haver = haver; }
+    public BigDecimal getValorPago() { return valorPago; }
+    public void setValorPago(BigDecimal valorPago) { this.valorPago = valorPago; }
 
-    public BigDecimal getSaldo() { return saldo; }
+    public BigDecimal getValorRestante() { return valorRestante; }
 
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }

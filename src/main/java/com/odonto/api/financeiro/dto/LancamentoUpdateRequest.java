@@ -9,6 +9,6 @@ public record LancamentoUpdateRequest(
         TipoLancamento tipo,
         String descricao,
         LocalDate data,
-        BigDecimal deve,
-        BigDecimal haver
+        BigDecimal valorTotal,
+        BigDecimal valorPago
 ) {}

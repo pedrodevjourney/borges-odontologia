@@ -14,9 +14,9 @@ public record LancamentoResponse(
         TipoLancamento tipo,
         String descricao,
         LocalDate data,
-        BigDecimal deve,
-        BigDecimal haver,
-        BigDecimal saldo,
+        BigDecimal valorTotal,
+        BigDecimal valorPago,
+        BigDecimal valorRestante,
         Instant createdAt,
         Instant updatedAt
 ) {
@@ -28,9 +28,9 @@ public record LancamentoResponse(
                 l.getTipo(),
                 l.getDescricao(),
                 l.getData(),
-                l.getDeve(),
-                l.getHaver(),
-                l.getSaldo(),
+                l.getValorTotal(),
+                l.getValorPago(),
+                l.getValorRestante(),
                 l.getCreatedAt(),
                 l.getUpdatedAt()
         );

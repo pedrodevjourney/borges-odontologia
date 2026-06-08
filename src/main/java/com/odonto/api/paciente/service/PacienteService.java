@@ -375,10 +375,10 @@ public class PacienteService {
         lancamentoRepository.findByPacienteIdOrderByDataDesc(pacienteId).forEach(l -> {
             String titulo = l.getTipo().name().equals("RECEITA") ? "Pagamento recebido" : "Lançamento";
             String descricao = l.getDescricao()
-                    + (l.getHaver() != null && l.getHaver().compareTo(java.math.BigDecimal.ZERO) > 0
-                    ? " — R$ " + l.getHaver() : "")
-                    + (l.getDeve() != null && l.getDeve().compareTo(java.math.BigDecimal.ZERO) > 0
-                    ? " (deve R$ " + l.getDeve() + ")" : "");
+                    + (l.getValorPago() != null && l.getValorPago().compareTo(java.math.BigDecimal.ZERO) > 0
+                    ? " — Pago: R$ " + l.getValorPago() : "")
+                    + (l.getValorTotal() != null && l.getValorTotal().compareTo(java.math.BigDecimal.ZERO) > 0
+                    ? " (Total: R$ " + l.getValorTotal() + ")" : "");
             itens.add(new HistoricoItemResponse(l.getId(), "LANCAMENTO", l.getData(), titulo, descricao, l.getId()));
         });
 
