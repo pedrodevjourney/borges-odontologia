@@ -1,10 +1,12 @@
 com/odonto/api/consulta/enums/StatusConsulta.class
 com/odonto/api/paciente/entity/Paciente.class
 com/odonto/api/paciente/service/PacienteService.class
+com/odonto/api/dashboard/dto/DashboardResponse$RecebimentoPorForma.class
 com/odonto/api/consulta/enums/TipoConsulta.class
 com/odonto/api/paciente/enums/StatusDente.class
 com/odonto/api/paciente/repository/DadosDenteRepository.class
 com/odonto/api/paciente/enums/EstadoCivil.class
+com/odonto/api/dashboard/dto/DashboardResponse$RecebimentoHoje.class
 com/odonto/api/consulta/controller/ConsultaController.class
 com/odonto/api/auth/dto/AuthResponse.class
 com/odonto/api/config/GlobalExceptionHandler$ErrorResponse.class
@@ -24,6 +26,7 @@ com/odonto/api/dashboard/controller/DashboardController.class
 com/odonto/api/auth/dto/LoginRequest.class
 com/odonto/api/financeiro/dto/ResumoFinanceiroResponse.class
 com/odonto/api/seeder/DemoDataSeeder.class
+com/odonto/api/dashboard/dto/DashboardResponse$ClienteHoje.class
 com/odonto/api/dashboard/dto/DashboardResponse$AlertaRetorno.class
 com/odonto/api/financeiro/dto/LancamentoRequest.class
 com/odonto/api/auth/controller/AuthController.class
@@ -42,6 +45,7 @@ com/odonto/api/config/PasswordConfig.class
 com/odonto/api/auth/repository/AdminRepository.class
 com/odonto/api/consulta/dto/ConsultaUpdateRequest.class
 com/odonto/api/financeiro/dto/LancamentoResponse.class
+com/odonto/api/financeiro/enums/FormaPagamento.class
 com/odonto/api/paciente/repository/PlanoTratamentoRepository.class
 com/odonto/api/auth/repository/RevokedTokenRepository.class
 com/odonto/api/auth/service/AuthService.class

@@ -38,6 +38,7 @@ public class LancamentoService {
         l.setData(req.data());
         l.setValorTotal(req.valorTotal());
         l.setValorPago(req.valorPago());
+        l.setFormaPagamento(req.formaPagamento());
 
         return LancamentoResponse.from(lancamentoRepository.save(l));
     }
@@ -46,11 +47,12 @@ public class LancamentoService {
     public LancamentoResponse atualizar(Long id, LancamentoUpdateRequest req) {
         Lancamento l = findLancamento(id);
 
-        if (req.tipo() != null)      l.setTipo(req.tipo());
-        if (req.descricao() != null)  l.setDescricao(req.descricao());
-        if (req.data() != null)       l.setData(req.data());
-        if (req.valorTotal() != null)  l.setValorTotal(req.valorTotal());
-        if (req.valorPago() != null)   l.setValorPago(req.valorPago());
+        if (req.tipo() != null)             l.setTipo(req.tipo());
+        if (req.descricao() != null)        l.setDescricao(req.descricao());
+        if (req.data() != null)             l.setData(req.data());
+        if (req.valorTotal() != null)       l.setValorTotal(req.valorTotal());
+        if (req.valorPago() != null)        l.setValorPago(req.valorPago());
+        if (req.formaPagamento() != null)   l.setFormaPagamento(req.formaPagamento());
 
         return LancamentoResponse.from(lancamentoRepository.save(l));
     }

@@ -34,6 +34,7 @@
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/dto/LancamentoUpdateRequest.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/dto/ResumoFinanceiroResponse.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/entity/Lancamento.java
+/Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/enums/FormaPagamento.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/enums/TipoLancamento.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/repository/LancamentoRepository.java
 /Users/pedrodevjourney/Documents/faculdade/extensao/odonto_api/src/main/java/com/odonto/api/financeiro/service/LancamentoService.java

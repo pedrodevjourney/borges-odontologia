@@ -1,5 +1,6 @@
 package com.odonto.api.financeiro.entity;
 
+import com.odonto.api.financeiro.enums.FormaPagamento;
 import com.odonto.api.financeiro.enums.TipoLancamento;
 import com.odonto.api.paciente.entity.Paciente;
 import jakarta.persistence.*;
@@ -45,6 +46,10 @@ public class Lancamento {
     @Column(name = "saldo", precision = 10, scale = 2)
     private BigDecimal valorRestante;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "forma_pagamento")
+    private FormaPagamento formaPagamento;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
@@ -82,6 +87,9 @@ public class Lancamento {
     public void setValorPago(BigDecimal valorPago) { this.valorPago = valorPago; }
 
     public BigDecimal getValorRestante() { return valorRestante; }
+
+    public FormaPagamento getFormaPagamento() { return formaPagamento; }
+    public void setFormaPagamento(FormaPagamento formaPagamento) { this.formaPagamento = formaPagamento; }
 
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }

@@ -1,5 +1,6 @@
 package com.odonto.api.financeiro.dto;
 
+import com.odonto.api.financeiro.enums.FormaPagamento;
 import com.odonto.api.financeiro.enums.TipoLancamento;
 
 import java.math.BigDecimal;
@@ -10,5 +11,6 @@ public record LancamentoUpdateRequest(
         String descricao,
         LocalDate data,
         BigDecimal valorTotal,
-        BigDecimal valorPago
+        BigDecimal valorPago,
+        FormaPagamento formaPagamento
 ) {}

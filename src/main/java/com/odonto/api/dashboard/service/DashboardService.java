@@ -7,7 +7,6 @@ import com.odonto.api.paciente.repository.PacienteRepository;
 import com.odonto.api.dashboard.dto.DashboardResponse;
 import com.odonto.api.dashboard.dto.DashboardResponse.*;
 import com.odonto.api.financeiro.repository.LancamentoRepository;
-import com.odonto.api.paciente.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +40,7 @@ public class DashboardService {
                 obterResumoPacientes(),
                 obterResumoConsultas(hoje),
                 obterResumoFinanceiro(hoje),
+                obterRecebimentoHoje(hoje),
                 obterProximasConsultas(),
                 obterProcedimentosMaisRealizados(),
                 obterAlertasRetorno()
@@ -93,11 +93,50 @@ public class DashboardService {
         BigDecimal despesa = (BigDecimal) totais[0];
         BigDecimal receita = (BigDecimal) totais[1];
 
+        List<RecebimentoPorForma> receitaPorFormaMes = lancamentoRepository
+                .findReceitaPorFormaPagamento(inicioMes, fimMes)
+                .stream()
+                .map(row -> new RecebimentoPorForma(
+                        row[0] != null ? row[0].toString() : "NAO_INFORMADO",
+                        (BigDecimal) row[1]
+                ))
+                .toList();
+
         return new FinanceiroResumo(
                 receita,
                 despesa,
-                receita.subtract(despesa)
+                receita.subtract(despesa),
+                receitaPorFormaMes
         );
+    }
+
+    private RecebimentoHoje obterRecebimentoHoje(LocalDate hoje) {
+        BigDecimal total = lancamentoRepository.findTotalReceitaHoje(hoje);
+        if (total == null) total = BigDecimal.ZERO;
+
+        List<RecebimentoPorForma> porForma = lancamentoRepository
+                .findReceitaPorFormaPagamento(hoje, hoje)
+                .stream()
+                .map(row -> new RecebimentoPorForma(
+                        row[0] != null ? row[0].toString() : "NAO_INFORMADO",
+                        (BigDecimal) row[1]
+                ))
+                .toList();
+
+        List<ClienteHoje> clientes = lancamentoRepository
+                .findClientesReceitasHoje(hoje)
+                .stream()
+                .map(row -> new ClienteHoje(
+                        ((Number) row[1]).longValue(),
+                        row[2] != null ? row[2].toString() : "",
+                        ((Number) row[0]).longValue(),
+                        row[3] != null ? row[3].toString() : "",
+                        (BigDecimal) row[4],
+                        row[5] != null ? row[5].toString() : null
+                ))
+                .toList();
+
+        return new RecebimentoHoje(total, porForma, clientes);
     }
 
     private List<ConsultaResponse> obterProximasConsultas() {

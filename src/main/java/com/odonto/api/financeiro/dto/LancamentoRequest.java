@@ -1,5 +1,6 @@
 package com.odonto.api.financeiro.dto;
 
+import com.odonto.api.financeiro.enums.FormaPagamento;
 import com.odonto.api.financeiro.enums.TipoLancamento;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,5 +14,6 @@ public record LancamentoRequest(
         @NotBlank(message = "Descrição é obrigatória") String descricao,
         @NotNull(message = "Data é obrigatória") LocalDate data,
         BigDecimal valorTotal,
-        BigDecimal valorPago
+        BigDecimal valorPago,
+        FormaPagamento formaPagamento
 ) {}

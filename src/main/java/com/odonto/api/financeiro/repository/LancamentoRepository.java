@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,6 +51,41 @@ public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
     List<Object[]> findTotaisByPeriodo(
             @Param("dataInicio") LocalDate dataInicio,
             @Param("dataFim") LocalDate dataFim
+    );
+
+    // --- Dashboard queries ---
+
+    @Query(value = """
+            SELECT l.id, l.paciente_id, p.nome, l.descricao, l.haver, l.forma_pagamento
+            FROM lancamentos l
+            JOIN pacientes p ON l.paciente_id = p.id
+            WHERE l.tipo = 'RECEITA'
+              AND l.data = :data
+              AND l.haver > 0
+            ORDER BY p.nome, l.id
+            """, nativeQuery = true)
+    List<Object[]> findClientesReceitasHoje(@Param("data") LocalDate data);
+
+    @Query(value = """
+            SELECT COALESCE(SUM(l.haver), 0)
+            FROM lancamentos l
+            WHERE l.tipo = 'RECEITA'
+              AND l.data = :data
+            """, nativeQuery = true)
+    BigDecimal findTotalReceitaHoje(@Param("data") LocalDate data);
+
+    @Query(value = """
+            SELECT COALESCE(l.forma_pagamento, 'NAO_INFORMADO') AS forma,
+                   COALESCE(SUM(l.haver), 0) AS total
+            FROM lancamentos l
+            WHERE l.tipo = 'RECEITA'
+              AND l.data BETWEEN :inicio AND :fim
+            GROUP BY COALESCE(l.forma_pagamento, 'NAO_INFORMADO')
+            ORDER BY total DESC
+            """, nativeQuery = true)
+    List<Object[]> findReceitaPorFormaPagamento(
+            @Param("inicio") LocalDate inicio,
+            @Param("fim") LocalDate fim
     );
 
     List<Lancamento> findByPacienteIdOrderByDataDesc(Long pacienteId);

@@ -4,12 +4,12 @@ import com.odonto.api.consulta.dto.ConsultaResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 public record DashboardResponse(
         PacientesResumo pacientes,
         ConsultasResumo consultas,
         FinanceiroResumo financeiro,
+        RecebimentoHoje recebimentoHoje,
         List<ConsultaResponse> proximasConsultas,
         List<ProcedimentoContagem> procedimentosMaisRealizados,
         List<AlertaRetorno> alertasRetorno
@@ -38,7 +38,28 @@ public record DashboardResponse(
     public record FinanceiroResumo(
             BigDecimal receitaMes,
             BigDecimal despesaMes,
-            BigDecimal saldoMes
+            BigDecimal saldoMes,
+            List<RecebimentoPorForma> receitaPorFormaMes
+    ) {}
+
+    public record RecebimentoHoje(
+            BigDecimal total,
+            List<RecebimentoPorForma> porForma,
+            List<ClienteHoje> clientes
+    ) {}
+
+    public record RecebimentoPorForma(
+            String formaPagamento,
+            BigDecimal valor
+    ) {}
+
+    public record ClienteHoje(
+            Long pacienteId,
+            String pacienteNome,
+            Long lancamentoId,
+            String descricao,
+            BigDecimal valorPago,
+            String formaPagamento
     ) {}
 
     public record ProcedimentoContagem(

@@ -1,6 +1,7 @@
 package com.odonto.api.financeiro.dto;
 
 import com.odonto.api.financeiro.entity.Lancamento;
+import com.odonto.api.financeiro.enums.FormaPagamento;
 import com.odonto.api.financeiro.enums.TipoLancamento;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public record LancamentoResponse(
         BigDecimal valorTotal,
         BigDecimal valorPago,
         BigDecimal valorRestante,
+        FormaPagamento formaPagamento,
         Instant createdAt,
         Instant updatedAt
 ) {
@@ -31,6 +33,7 @@ public record LancamentoResponse(
                 l.getValorTotal(),
                 l.getValorPago(),
                 l.getValorRestante(),
+                l.getFormaPagamento(),
                 l.getCreatedAt(),
                 l.getUpdatedAt()
         );
