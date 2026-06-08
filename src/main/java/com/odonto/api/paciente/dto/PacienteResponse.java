@@ -22,6 +22,7 @@ public record PacienteResponse(
         String telefone,
         String telefoneSecundario,
         EstadoCivil estadoCivil,
+        boolean prospecto,
         Instant createdAt,
         Instant updatedAt
 ) {
@@ -32,7 +33,7 @@ public record PacienteResponse(
                 p.getNacionalidade(), p.getIndicadoPor(), p.getInicioTratamento(),
                 p.getTerminoTratamento(), p.getInterrupcaoTratamento(),
                 p.getTelefone(), p.getTelefoneSecundario(), p.getEstadoCivil(),
-                p.getCreatedAt(), p.getUpdatedAt()
+                p.isProspecto(), p.getCreatedAt(), p.getUpdatedAt()
         );
     }
 }

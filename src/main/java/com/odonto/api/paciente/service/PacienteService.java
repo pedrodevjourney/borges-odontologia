@@ -75,6 +75,7 @@ public class PacienteService {
         p.setTelefoneSecundario(req.telefoneSecundario());
         p.setEstadoCivil(req.estadoCivil());
         p.setCpf(req.cpf());
+        p.setProspecto(req.prospecto() != null && req.prospecto());
         return PacienteResponse.from(pacienteRepository.save(p));
     }
 
@@ -95,6 +96,7 @@ public class PacienteService {
         if (req.telefone() != null) p.setTelefone(req.telefone());
         if (req.telefoneSecundario() != null) p.setTelefoneSecundario(req.telefoneSecundario());
         if (req.estadoCivil() != null) p.setEstadoCivil(req.estadoCivil());
+        if (req.prospecto() != null) p.setProspecto(req.prospecto());
         return PacienteResponse.from(pacienteRepository.save(p));
     }
 

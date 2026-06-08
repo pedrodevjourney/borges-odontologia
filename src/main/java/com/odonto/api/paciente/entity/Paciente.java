@@ -51,6 +51,9 @@ public class Paciente {
     @Column(length = 14)
     private String cpf;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean prospecto = false;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
@@ -117,6 +120,9 @@ public class Paciente {
 
     public String getCpf() { return cpf; }
     public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public boolean isProspecto() { return prospecto; }
+    public void setProspecto(boolean prospecto) { this.prospecto = prospecto; }
 
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }

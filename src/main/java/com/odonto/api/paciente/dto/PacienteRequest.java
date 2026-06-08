@@ -23,5 +23,6 @@ public record PacienteRequest(
         LocalDate interrupcaoTratamento,
         String telefone,
         String telefoneSecundario,
-        EstadoCivil estadoCivil
+        EstadoCivil estadoCivil,
+        Boolean prospecto
 ) {}
