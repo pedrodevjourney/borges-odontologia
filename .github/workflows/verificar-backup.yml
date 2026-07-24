@@ -54,7 +54,15 @@ jobs:
           psql --version
 
           # Mesma instância, banco diferente: o neondb de produção não é tocado.
-          URL_TESTE="${DATABASE_URL//\/neondb/\/$BANCO_TESTE}"
+          # Troca só o último segmento do caminho. Não use substituição de "/neondb":
+          # o usuário da URL é "neondb_owner", então "//neondb_owner" também casaria e
+          # o login iria embora junto (foi o que aconteceu na primeira versão disto).
+          SEM_QUERY="${DATABASE_URL%%\?*}"
+          PREFIXO="${SEM_QUERY%/*}"
+          URL_TESTE="$PREFIXO/$BANCO_TESTE"
+          if [ "$SEM_QUERY" != "$DATABASE_URL" ]; then
+            URL_TESTE="$URL_TESTE?${DATABASE_URL#*\?}"
+          fi
 
           psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -q -c "CREATE DATABASE $BANCO_TESTE;"
           gunzip -c backup.sql.gz | psql "$URL_TESTE" -v ON_ERROR_STOP=1 -q
