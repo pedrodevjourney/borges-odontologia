@@ -21,16 +21,35 @@ jobs:
           curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
           sudo apt-get update -qq
           sudo apt-get install -y -qq postgresql-client-18
-          pg_dump --version
+          # O `pg_dump` do PATH continua sendo o 16 pré-instalado no runner; o passo
+          # seguinte chama o 18 pelo caminho completo.
+          /usr/lib/postgresql/18/bin/pg_dump --version
 
       - name: Gerar dump
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
+          # pipefail é essencial: sem ele o código de saída do pipe é o do gzip, e um
+          # pg_dump que aborta gera um .gz vazio com o step ficando VERDE.
+          set -euo pipefail
+
           test -n "$DATABASE_URL" || { echo "Secret DATABASE_URL não configurado"; exit 1; }
+
+          # Caminho completo de propósito: o runner já traz pg_dump 16 no PATH, que
+          # recusa dumpar o servidor 18 ("server version mismatch").
+          PGDUMP=/usr/lib/postgresql/18/bin/pg_dump
+          "$PGDUMP" --version
+
           ARQUIVO="odonto-$(date -u +%Y-%m-%d).sql.gz"
           echo "ARQUIVO=$ARQUIVO" >> "$GITHUB_ENV"
-          pg_dump --no-owner --no-privileges "$DATABASE_URL" | gzip -9 > "$ARQUIVO"
+          "$PGDUMP" --no-owner --no-privileges "$DATABASE_URL" | gzip -9 > "$ARQUIVO"
+
+          # Cinto de segurança: um dump plausível tem as tabelas e passa de 1 KB.
+          TAMANHO=$(stat -c%s "$ARQUIVO")
+          echo "Tamanho do dump: $TAMANHO bytes"
+          test "$TAMANHO" -gt 1024 || { echo "Dump suspeito de vazio ($TAMANHO bytes)"; exit 1; }
+          zcat "$ARQUIVO" | grep -q "CREATE TABLE public.pacientes" \
+            || { echo "Dump não contém a tabela pacientes"; exit 1; }
           ls -lh "$ARQUIVO"
 
       - name: Enviar para o Supabase Storage

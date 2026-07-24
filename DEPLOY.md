@@ -441,7 +441,22 @@ em *Settings → Secrets and variables → Actions*:
 Depois rode uma vez na mão (*Actions → Backup diário do banco → Run workflow*) e confirme
 que o arquivo apareceu no bucket `backups`. Backup que nunca foi testado não é backup.
 
-### Passo 8 — Teste de aceitação (faça com a dentista)
+### Passo 8 — Teste de aceitação — ✅ VALIDADO EM PRODUÇÃO (24/07/2026)
+
+Sistema publicado e funcionando:
+
+- API: `https://borges-odontologia.onrender.com` (Render, Ohio, Docker, free)
+- Front: `https://odonto-app.pages.dev` (Cloudflare Pages)
+- Banco: Neon `us-east-2`, Postgres 18.4 · Arquivos: Supabase Storage, bucket `Radiografias`
+
+Verificado de fora: `/health` 200 em 0,2 s · endpoints protegidos devolvem 401 ·
+CORS libera só `https://odonto-app.pages.dev` (origem estranha → 403) · rota interna do
+front devolve o index (o `_redirects` funciona) · bundle publicado aponta para a API real.
+
+**E o teste que importava: radiografia subida em produção permaneceu acessível.** O
+problema do disco efêmero está resolvido no ambiente real, não só em teste.
+
+Roteiro original, para repetir a cada mudança grande:
 
 1. Login com o e-mail/senha do `ADMIN_*`, e **troque a senha inicial**
 2. Cadastrar paciente → agendar consulta → lançar financeiro → subir uma radiografia
