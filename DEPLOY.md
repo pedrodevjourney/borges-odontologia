@@ -392,6 +392,13 @@ Instruções originais (referência):
    e `Default admin created: <e-mail da dentista>`.
 7. Guarde a URL final (algo como `https://odonto-api.onrender.com`).
 
+**Armadilha da porta (aconteceu no primeiro deploy, 24/07/2026):** o Render injeta a
+porta em `PORT` (10000 por padrão) e roteia o tráfego só para ela. O Spring, por padrão,
+sobe na 8080 — resultado: o contêiner sobe, conecta no banco, cria o admin, e ainda assim
+**nenhuma requisição responde**; o TLS conecta e a requisição fica pendurada até o
+timeout. Corrigido com `server.port=${PORT:8080}` no `application-prod.properties`.
+Sintoma característico: `curl` conectando em ~30 ms e depois travando, sem 502 nem 404.
+
 ### Passo 5 — Cloudflare Pages (front)
 
 1. dash.cloudflare.com → *Workers & Pages* → **Create** → *Pages* → conecte o repo
