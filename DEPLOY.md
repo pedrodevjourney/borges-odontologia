@@ -427,7 +427,65 @@ Crie conta em cron-job.org e um job:
 Esse recorte não é economia de estimação: é o que mantém o consumo dentro das 100 CU-h do
 Neon (§1). Não coloque 24/7.
 
-### Passo 7 — Backup diário (GitHub Actions)
+### Passo 7 — Backup diário — ✅ FUNCIONANDO E CONFERIDO (24/07/2026)
+
+Secrets cadastrados no repo `borges-odontologia` e workflow executado com sucesso.
+Dump baixado do bucket e inspecionado: **3.736 bytes**, 11 tabelas (`admins`,
+`anotacoes`, `consultas`, `dados_dentes`, `fichas_clinicas`, `flyway_schema_history`,
+`lancamentos`, `pacientes`, `planos_tratamento`, `radiografias`, `revoked_tokens`),
+17 índices e 7 foreign keys. O `flyway_schema_history` vem no dump, então um restore
+volta com o histórico de migrations coerente.
+
+**Dois bugs que a primeira execução revelou** — vale conhecer porque são clássicos:
+
+1. O runner do GitHub já traz `pg_dump` **16** no `PATH`; o pacote 18 instala em
+   `/usr/lib/postgresql/18/bin/`. O dump abortava com `server version mismatch`.
+2. Em `pg_dump | gzip > arquivo`, o código de saída do pipe é o do **gzip**. Com o dump
+   abortando, o gzip gerava 20 bytes de nada e o step ficava **verde** — backup-fantasma
+   perfeito: "rodando" há meses e vazio no dia do desastre.
+
+Corrigido com caminho completo do cliente 18, `set -euo pipefail` e duas travas: o
+arquivo precisa passar de 1 KB **e** conter `CREATE TABLE public.pacientes`.
+
+### ⚠️ Como restaurar (leia antes de precisar)
+
+O teste de restauração revelou uma armadilha séria: o `pg_dump` 18 escreve
+**`\restrict <token>`** na quinta linha do arquivo — meta-comando que só o **psql 18+**
+entende. Restaurando com psql 16, ele aborta ali e cria **ZERO tabelas**. O arquivo está
+perfeito; a ferramenta é que era velha. Num dia de emergência, isso pareceria "backup
+corrompido".
+
+Restauração correta:
+
+```bash
+# cliente 18 — obrigatório
+brew install postgresql@18          # macOS
+export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
+
+# 1. baixar o backup do bucket
+curl -s "https://whxvlsjcseeysxqwsjms.supabase.co/storage/v1/object/Backups/odonto-AAAA-MM-DD.sql.gz" \
+  -H "Authorization: Bearer <service_role>" -o backup.sql.gz
+
+# 2. restaurar (aqui num banco novo, para não sobrescrever o de produção)
+psql "postgresql://neondb_owner:<senha>@<host>/neondb" -c "CREATE DATABASE restauracao;"
+gunzip -c backup.sql.gz | psql "postgresql://neondb_owner:<senha>@<host>/restauracao" -v ON_ERROR_STOP=1
+
+# 3. conferir
+psql ".../restauracao" -c "\dt"
+```
+
+O `-v ON_ERROR_STOP=1` não é opcional: sem ele, o psql segue em frente depois de erros e
+entrega um banco pela metade parecendo sucesso.
+
+### Verificação automática mensal
+
+`.github/workflows/verificar-backup.yml` faz esse ciclo inteiro sozinho no dia 1 de cada
+mês (e sob demanda): baixa o backup mais recente, restaura num banco descartável do
+próprio projeto Neon, confere que as 11 tabelas voltaram e que `pacientes`, `consultas`,
+`fichas_clinicas`, `radiografias`, `lancamentos` e `admins` estão consultáveis, e apaga o
+banco de teste no final (inclusive se algo falhar). O `neondb` de produção nunca é tocado.
+
+Instruções originais (referência):
 
 O workflow já está em `.github/workflows/backup-banco.yml`. Só falta cadastrar os secrets
 em *Settings → Secrets and variables → Actions*:

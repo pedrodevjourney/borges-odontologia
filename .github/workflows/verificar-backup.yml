@@ -1,0 +1,81 @@
+name: Verificar restauração do backup
+
+# Backup que nunca foi restaurado não é backup — é um arquivo com nome bonito.
+# Este workflow baixa o backup mais recente do bucket, restaura num banco descartável
+# do próprio projeto Neon (nunca toca no neondb), confere o schema e apaga o banco.
+#
+# Descoberta que motivou este workflow: o pg_dump 18 escreve `\restrict <token>` no
+# início do arquivo — meta-comando que só o psql 18+ entende. Restaurar com psql 16
+# aborta na quinta linha e cria ZERO tabelas, sem erro evidente.
+on:
+  schedule:
+    - cron: "0 8 1 * *" # dia 1 de cada mês, 05:00 em Brasília
+  workflow_dispatch:
+
+jobs:
+  restaurar:
+    runs-on: ubuntu-latest
+    env:
+      BANCO_TESTE: restore_check_${{ github.run_id }}
+    steps:
+      - name: Instalar cliente do PostgreSQL 18
+        run: |
+          set -euo pipefail
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-18
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
+
+      - name: Baixar o backup mais recente do bucket
+        env:
+          STORAGE_URL: ${{ secrets.STORAGE_URL }}
+          STORAGE_SERVICE_KEY: ${{ secrets.STORAGE_SERVICE_KEY }}
+        run: |
+          set -euo pipefail
+          ARQUIVO=$(curl -sf -X POST "$STORAGE_URL/storage/v1/object/list/Backups" \
+            -H "Authorization: Bearer $STORAGE_SERVICE_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"prefix":"","limit":100,"sortBy":{"column":"name","order":"desc"}}' \
+            | python3 -c 'import sys,json; itens=json.load(sys.stdin); print(itens[0]["name"] if itens else "")')
+
+          test -n "$ARQUIVO" || { echo "Bucket Backups está vazio"; exit 1; }
+          echo "Backup mais recente: $ARQUIVO"
+
+          curl -sf "$STORAGE_URL/storage/v1/object/Backups/$ARQUIVO" \
+            -H "Authorization: Bearer $STORAGE_SERVICE_KEY" -o backup.sql.gz
+          ls -lh backup.sql.gz
+
+      - name: Restaurar num banco descartável e conferir
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          set -euo pipefail
+          psql --version
+
+          # Mesma instância, banco diferente: o neondb de produção não é tocado.
+          URL_TESTE="${DATABASE_URL//\/neondb/\/$BANCO_TESTE}"
+
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -q -c "CREATE DATABASE $BANCO_TESTE;"
+          gunzip -c backup.sql.gz | psql "$URL_TESTE" -v ON_ERROR_STOP=1 -q
+
+          TABELAS=$(psql "$URL_TESTE" -tAc \
+            "SELECT count(*) FROM information_schema.tables WHERE table_schema='public';")
+          echo "Tabelas restauradas: $TABELAS"
+          test "$TABELAS" -ge 11 || { echo "Restauração incompleta"; exit 1; }
+
+          # As tabelas que guardam o registro dos pacientes têm que estar lá.
+          for t in pacientes consultas fichas_clinicas radiografias lancamentos admins; do
+            psql "$URL_TESTE" -tAc "SELECT 1 FROM $t LIMIT 1;" > /dev/null
+            echo "  ok: $t"
+          done
+
+          echo "Restauração validada."
+
+      - name: Apagar o banco descartável
+        if: always()
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          psql "$DATABASE_URL" -q -c "DROP DATABASE IF EXISTS $BANCO_TESTE WITH (FORCE);" \
+            && echo "banco $BANCO_TESTE removido"
