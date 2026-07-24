@@ -45,6 +45,23 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Migrations: o schema é definido aqui, não pelo ddl-auto do Hibernate.
+		     No Spring Boot 4 a autoconfiguração do Flyway vive no módulo
+		     spring-boot-flyway; só o flyway-core no classpath não ativa nada. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-flyway</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

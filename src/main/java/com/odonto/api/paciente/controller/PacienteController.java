@@ -2,9 +2,9 @@ package com.odonto.api.paciente.controller;
 
 import com.odonto.api.paciente.dto.*;
 import com.odonto.api.paciente.service.PacienteService;
+import com.odonto.api.storage.StoredFile;
 import jakarta.validation.Valid;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.MalformedURLException;
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -123,24 +121,11 @@ public class PacienteController {
     public ResponseEntity<Resource> downloadRadiografia(
             @PathVariable Long pacienteId,
             @PathVariable Long radiografiaId) {
-        Path filePath = pacienteService.resolverArquivoRadiografia(pacienteId, radiografiaId);
-        try {
-            Resource resource = new UrlResource(filePath.toUri());
-            if (!resource.exists()) {
-                return ResponseEntity.notFound().build();
-            }
-            String contentType = "application/octet-stream";
-            try {
-                String ct = java.nio.file.Files.probeContentType(filePath);
-                if (ct != null) contentType = ct;
-            } catch (Exception ignored) {}
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .body(resource);
-        } catch (MalformedURLException e) {
-            return ResponseEntity.notFound().build();
-        }
+        StoredFile arquivo = pacienteService.lerArquivoRadiografia(pacienteId, radiografiaId);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                .contentType(MediaType.parseMediaType(arquivo.contentType()))
+                .body(arquivo.resource());
     }
 
     @DeleteMapping("/{pacienteId}/radiografias/{radiografiaId}")

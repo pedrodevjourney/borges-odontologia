@@ -7,18 +7,14 @@ import com.odonto.api.paciente.entity.*;
 import com.odonto.api.exception.ResourceNotFoundException;
 import com.odonto.api.paciente.enums.StatusTratamento;
 import com.odonto.api.paciente.repository.*;
-import org.springframework.beans.factory.annotation.Value;
+import com.odonto.api.storage.FileStorage;
+import com.odonto.api.storage.StoredFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Stream;
@@ -35,9 +31,7 @@ public class PacienteService {
     private final PlanoTratamentoRepository planoTratamentoRepository;
     private final ConsultaRepository consultaRepository;
     private final LancamentoRepository lancamentoRepository;
-
-    @Value("${app.upload.dir:uploads}")
-    private String uploadDir;
+    private final FileStorage fileStorage;
 
     public PacienteService(PacienteRepository pacienteRepository,
                            DadosDenteRepository dadosDenteRepository,
@@ -46,7 +40,8 @@ public class PacienteService {
                            FichaClinicaRepository fichaClinicaRepository,
                            PlanoTratamentoRepository planoTratamentoRepository,
                            ConsultaRepository consultaRepository,
-                           LancamentoRepository lancamentoRepository) {
+                           LancamentoRepository lancamentoRepository,
+                           FileStorage fileStorage) {
         this.pacienteRepository = pacienteRepository;
         this.dadosDenteRepository = dadosDenteRepository;
         this.anotacaoRepository = anotacaoRepository;
@@ -55,6 +50,7 @@ public class PacienteService {
         this.planoTratamentoRepository = planoTratamentoRepository;
         this.consultaRepository = consultaRepository;
         this.lancamentoRepository = lancamentoRepository;
+        this.fileStorage = fileStorage;
     }
 
 
@@ -181,21 +177,15 @@ public class PacienteService {
                 ? nomeOriginal.substring(nomeOriginal.lastIndexOf(".")) : "";
         String nomeArmazenado = UUID.randomUUID() + extensao;
 
-        Path dirPath = Paths.get(uploadDir, "radiografias", String.valueOf(pacienteId));
-        try {
-            Files.createDirectories(dirPath);
-            Path destino = dirPath.resolve(nomeArmazenado);
-            Files.copy(arquivo.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException("Falha ao salvar arquivo: " + e.getMessage());
-        }
+        String chave = "radiografias/" + pacienteId + "/" + nomeArmazenado;
+        fileStorage.store(chave, arquivo);
 
         Radiografia r = new Radiografia();
         r.setPaciente(paciente);
         r.setNomeOriginal(nomeOriginal);
         r.setNomeArmazenado(nomeArmazenado);
         r.setContentType(arquivo.getContentType());
-        r.setCaminhoArquivo(Paths.get("radiografias", String.valueOf(pacienteId), nomeArmazenado).toString());
+        r.setCaminhoArquivo(chave);
         r.setDescricao(descricao);
         r.setDataRealizacao(dataStr != null && !dataStr.isBlank() ? LocalDate.parse(dataStr) : null);
 
@@ -214,13 +204,13 @@ public class PacienteService {
                 .map(RadiografiaResponse::from).toList();
     }
 
-    public Path resolverArquivoRadiografia(Long pacienteId, Long radiografiaId) {
+    public StoredFile lerArquivoRadiografia(Long pacienteId, Long radiografiaId) {
         Radiografia r = radiografiaRepository.findById(radiografiaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Radiografia não encontrada com id: " + radiografiaId));
         if (!r.getPaciente().getId().equals(pacienteId)) {
             throw new ResourceNotFoundException("Radiografia não pertence a este paciente");
         }
-        return Paths.get(uploadDir).resolve(r.getCaminhoArquivo());
+        return fileStorage.read(r.getCaminhoArquivo());
     }
 
     @Transactional
@@ -230,8 +220,7 @@ public class PacienteService {
         if (!r.getPaciente().getId().equals(pacienteId)) {
             throw new ResourceNotFoundException("Radiografia não pertence a este paciente");
         }
-        Path arquivo = Paths.get(uploadDir).resolve(r.getCaminhoArquivo());
-        try { Files.deleteIfExists(arquivo); } catch (IOException ignored) {}
+        fileStorage.delete(r.getCaminhoArquivo());
         radiografiaRepository.delete(r);
     }
 
@@ -392,11 +381,10 @@ public class PacienteService {
     @Transactional
     public void excluir(Long id) {
         Paciente paciente = findPaciente(id);
-        // Limpa arquivos de radiografia do disco
+        // Limpa os arquivos de radiografia do storage
         radiografiaRepository.findByPacienteId(id).forEach(r -> {
             if (r.getCaminhoArquivo() != null) {
-                try { Files.deleteIfExists(Paths.get(uploadDir).resolve(r.getCaminhoArquivo())); }
-                catch (IOException ignored) {}
+                fileStorage.delete(r.getCaminhoArquivo());
             }
         });
         pacienteRepository.delete(paciente);

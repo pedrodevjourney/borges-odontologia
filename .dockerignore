@@ -1,0 +1,7 @@
+target/
+uploads/
+.git/
+.idea/
+*.iml
+HELP.md
+APRESENTACAO_CLIENTE.md

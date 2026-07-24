@@ -1,0 +1,39 @@
+name: CI
+
+# Portão de merge: migrations aplicadas do zero em Postgres de verdade + testes.
+# Se isso passa, o deploy no Render passa.
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: odonto_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: temurin
+          cache: maven
+      - name: Testes (migrations do zero + contexto Spring)
+        run: ./mvnw -B test
+      - name: Empacotar
+        run: ./mvnw -B -DskipTests package
+      - name: Validar o Dockerfile de produção
+        run: docker build -t odonto-api:ci .

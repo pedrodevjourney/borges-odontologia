@@ -1,0 +1,57 @@
+name: Backup diário do banco
+
+# O free tier do Neon não tem backup gerenciado. Este workflow faz o dump e
+# guarda no mesmo bucket das radiografias.
+# Atenção: o agendamento do GitHub Actions é impreciso e pode atrasar dezenas de
+# minutos — para backup diário isso é irrelevante.
+on:
+  schedule:
+    - cron: "0 6 * * *" # 06:00 UTC = 03:00 em Brasília
+  workflow_dispatch: # permite rodar na mão pelo painel do GitHub
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      # Cliente 18 porque o banco no Neon é Postgres 18: o pg_dump recusa dumpar um
+      # servidor mais NOVO que ele (mas lida bem com servidores mais antigos).
+      - name: Instalar cliente do PostgreSQL 18
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-18
+          pg_dump --version
+
+      - name: Gerar dump
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          test -n "$DATABASE_URL" || { echo "Secret DATABASE_URL não configurado"; exit 1; }
+          ARQUIVO="odonto-$(date -u +%Y-%m-%d).sql.gz"
+          echo "ARQUIVO=$ARQUIVO" >> "$GITHUB_ENV"
+          pg_dump --no-owner --no-privileges "$DATABASE_URL" | gzip -9 > "$ARQUIVO"
+          ls -lh "$ARQUIVO"
+
+      - name: Enviar para o Supabase Storage
+        env:
+          STORAGE_URL: ${{ secrets.STORAGE_URL }}
+          STORAGE_SERVICE_KEY: ${{ secrets.STORAGE_SERVICE_KEY }}
+        run: |
+          CODIGO=$(curl -s -o /tmp/resposta.txt -w "%{http_code}" \
+            -X POST "$STORAGE_URL/storage/v1/object/Backups/$ARQUIVO" \
+            -H "Authorization: Bearer $STORAGE_SERVICE_KEY" \
+            -H "Content-Type: application/gzip" \
+            -H "x-upsert: true" \
+            --data-binary "@$ARQUIVO")
+          echo "HTTP $CODIGO"
+          cat /tmp/resposta.txt
+          test "$CODIGO" -lt 300
+
+      # Rede de segurança: o artifact fica no próprio GitHub por 30 dias, para o
+      # caso de o bucket estar indisponível ou pausado.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backup-${{ github.run_number }}
+          path: ${{ env.ARQUIVO }}
+          retention-days: 30
